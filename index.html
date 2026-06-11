@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卢心语 - 个人简历网站</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#64748b',
+                        dark: '#1e293b',
+                        light: '#f8fafc',
+                        accent: '#8b5cf6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .sidebar-link-active {
+                @apply bg-primary/10 text-primary border-l-4 border-primary font-medium;
+            }
+            .card-hover {
+                @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:border-primary/30;
+            }
+            .tab-active {
+                @apply bg-primary text-white;
+            }
+        }
+
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans text-dark">
+    <!-- 移动端顶部导航栏 -->
+    <header class="lg:hidden fixed top-0 left-0 right-0 h-16 bg-white shadow-sm z-50 flex items-center px-4">
+        <button id="menu-toggle" class="text-gray-600 focus:outline-none">
+            <i class="fa fa-bars text-xl"></i>
+        </button>
+        <h1 class="ml-4 text-xl font-bold text-primary">卢心语</h1>
+    </header>
+
+    <!-- 遮罩层 -->
+    <div id="overlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"></div>
+
+    <div class="flex min-h-screen">
+        <!-- 左侧导航栏 -->
+        <aside id="sidebar" class="fixed top-0 left-0 h-full w-64 bg-white shadow-md z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 overflow-y-auto">
+            <div class="p-6 sticky top-0 bg-white text-center">
+                <div class="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-accent mx-auto mb-4 flex items-center justify-center">
+                    <i class="fa fa-user text-white text-4xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-dark">卢心语</h1>
+                <p class="text-gray-500 mt-1">会计专业 | 审计实习生</p>
+                <div class="flex justify-center space-x-3 mt-4">
+                    <a href="tel:15952171952" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition-colors">
+                        <i class="fa fa-phone"></i>
+                    </a>
+                    <a href="mailto:213928349@qq.com" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition-colors">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+
+            <nav class="px-4 pb-6">
+                <ul class="space-y-1">
+                    <li>
+                        <a href="#home" class="sidebar-link sidebar-link-active flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+                            <i class="fa fa-home w-5 text-center mr-3"></i>
+                            <span>个人首页</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#education" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+                            <i class="fa fa-graduation-cap w-5 text-center mr-3"></i>
+                            <span>教育经历</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#internship" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+                            <i class="fa fa-briefcase w-5 text-center mr-3"></i>
+                            <span>实习经历</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#projects" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+                            <i class="fa fa-project-diagram w-5 text-center mr-3"></i>
+                            <span>项目经历</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#honors" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+                            <i class="fa fa-trophy w-5 text-center mr-3"></i>
+                            <span>荣誉技能</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#contact" class="sidebar-link flex items-center px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+                            <i class="fa fa-envelope w-5 text-center mr-3"></i>
+                            <span>联系我</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- 右侧内容区 -->
+        <main class="flex-1 lg:ml-64 pt-16 lg:pt-0">
+            <!-- 内容展示区 -->
+            <div class="p-6 max-w-5xl mx-auto">
+                <!-- 个人首页 -->
+                <section id="home" class="mb-16 section min-h-[80vh] flex items-center">
+                    <div class="w-full">
+                        <div class="bg-white rounded-2xl shadow-md p-8 md:p-12">
+                            <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+                                <div class="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center flex-shrink-0">
+                                    <i class="fa fa-user text-white text-5xl md:text-6xl"></i>
+                                </div>
+                                <div class="text-center md:text-left">
+                                    <h2 class="text-3xl md:text-4xl font-bold text-dark mb-2">卢心语</h2>
+                                    <p class="text-xl text-primary font-medium mb-4">会计专业 | 审计实习生</p>
+                                    <p class="text-gray-600 mb-6 max-w-2xl">
+                                        扬州大学会计学专业在读，GPA 4.4/5（专业前1%），拥有扎实的财务会计理论知识与实务操作技能。
+                                        具备初级审计师和初级会计职称，熟练使用Office和Python进行数据处理与分析。
+                                        注重细节，做事认真负责，具有较强的学习能力和团队协作精神。
+                                    </p>
+                                    <div class="flex flex-wrap justify-center md:justify-start gap-4">
+                                        <a href="#contact" class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors flex items-center">
+                                            <i class="fa fa-envelope mr-2"></i>联系我
+                                        </a>
+                                        <a href="#projects" class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors flex items-center">
+                                            <i class="fa fa-folder-open mr-2"></i>查看项目
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12">
+                                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                    <div class="text-3xl font-bold text-primary mb-1">4.4/5</div>
+                                    <div class="text-gray-500 text-sm">GPA</div>
+                                </div>
+                                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                    <div class="text-3xl font-bold text-primary mb-1">前1%</div>
+                                    <div class="text-gray-500 text-sm">专业排名</div>
+                                </div>
+                                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                    <div class="text-3xl font-bold text-primary mb-1">3项</div>
+                                    <div class="text-gray-500 text-sm">国家级奖项</div>
+                                </div>
+                                <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                    <div class="text-3xl font-bold text-primary mb-1">2个</div>
+                                    <div class="text-gray-500 text-sm">专业证书</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 教育经历 -->
+                <section id="education" class="mb-16 section">
+                    <h2 class="text-3xl font-bold mb-8 text-dark flex items-center">
+                        <i class="fa fa-graduation-cap text-primary mr-3"></i>教育经历
+                    </h2>
+                    
+                    <div class="bg-white rounded-2xl shadow-md p-8">
+                        <div class="flex flex-col md:flex-row justify-between items-start mb-6">
+                            <div>
+                                <h3 class="text-2xl font-bold text-dark">扬州大学</h3>
+                                <p class="text-primary text-lg">本科 - 会计专业</p>
+                            </div>
+                            <div class="mt-2 md:mt-0 text-right">
+                                <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full font-medium">2024.09 - 至今</span>
+                                <p class="text-gray-500 mt-2">GPA: 4.4/5 (专业前1%)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t border-gray-100 pt-6">
+                            <h4 class="text-lg font-semibold mb-4 text-gray-700">核心专业课成绩</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span>基础会计</span>
+                                    <span class="font-semibold text-primary">99分</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span>中级财务会计</span>
+                                    <span class="font-semibold text-primary">96分</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span>财务管理</span>
+                                    <span class="font-semibold text-primary">95分</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span>宏观经济学</span>
+                                    <span class="font-semibold text-primary">97分</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span>政治经济学</span>
+                                    <span class="font-semibold text-primary">93分</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span>概率论与数理统计</span>
+                                    <span class="font-semibold text-primary">94分</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span>高等数学</span>
+                                    <span class="font-semibold text-primary">90分</span>
+                                </div>
+                                <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                                    <span>微观经济学</span>
+                                    <span class="font-semibold text-primary">90分</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 实习经历 -->
+                <section id="internship" class="mb-16 section">
+                    <h2 class="text-3xl font-bold mb-8 text-dark flex items-center">
+                        <i class="fa fa-briefcase text-primary mr-3"></i>实习经历
+                    </h2>
+                    
+                    <div class="bg-white rounded-2xl shadow-md p-8">
+                        <div class="flex flex-col md:flex-row justify-between items-start mb-6">
+                            <div>
+                                <h3 class="text-2xl font-bold text-dark">徐州巴斯特有限公司</h3>
+                                <p class="text-primary text-lg">财务会计</p>
+                            </div>
+                            <div class="mt-2 md:mt-0">
+                                <span class="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full font-medium">2025.07 - 2025.09</span>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t border-gray-100 pt-6">
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-primary mt-1 mr-3"></i>
+                                    <span>负责日常账务处理，审核原始凭证的合法性、合规性与完整性，准确编制记账凭证，确保经济业务及时准确入账</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-primary mt-1 mr-3"></i>
+                                    <span>审核员工差旅费、业务招待费、办公费等各项费用报销单据，严格执行公司政策及税法规定</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-primary mt-1 mr-3"></i>
+                                    <span>协助完成月度结账工作，整理归档财务凭证和报表，保证财务资料的完整性和规范性</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 项目经历 -->
+                <section id="projects" class="mb-16 section">
+                    <h2 class="text-3xl font-bold mb-8 text-dark flex items-center">
+                        <i class="fa fa-project-diagram text-primary mr-3"></i>项目经历
+                    </h2>
+                    
+                    <!-- 项目标签栏 -->
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <button class="tab tab-active px-4 py-2 rounded-full text-sm font-medium transition-colors" data-tab="project-1">创新创业项目</button>
+                        <button class="tab px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors" data-tab="project-2">企业模拟竞争大赛</button>
+                        <button class="tab px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors" data-tab="project-3">正大杯调研大赛</button>
+                    </div>
+
+                    <!-- 项目1内容 -->
+                    <div class="tab-content" id="project-1">
+                        <div class="bg-white rounded-2xl shadow-md p-8 card-hover">
+                            <div class="flex flex-col md:flex-row justify-between items-start mb-6">
+                                <div>
+                                    <h3 class="text-2xl font-bold text-dark">大学生省级创新创业项目</h3>
+                                    <p class="text-primary text-lg">项目负责人</p>
+                                </div>
+                                <div class="mt-2 md:mt-0">
+                                    <span class="inline-block px-4 py-1 bg-accent/10 text-accent rounded-full font-medium">2026.05 - 至今</span>
+                                </div>
+                            </div>
+                            
+                            <p class="text-gray-600 mb-4">
+                                大学生省级创新创业项目旨在培养学生的创新能力和创业精神，通过实际操作解决社会或行业中的具体问题。
+                            </p>
+                            
+                            <div class="border-t border-gray-100 pt-6">
+                                <h4 class="text-lg font-semibold mb-4 text-gray-700">核心职责</h4>
+                                <ul class="space-y-3">
+                                    <li class="flex items-start">
+                                        <i class="fa fa-angle-right text-primary mt-1 mr-3"></i>
+                                        <span>负责团队组建、项目规划与执行，制定详细的项目时间表和里程碑</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fa fa-angle-right text-primary mt-1 mr-3"></i>
+                                        <span>整合校内外资源，协调与指导老师、合作企业的沟通对接工作</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fa fa-angle-right text-primary mt-1 mr-3"></i>
+                                        <span>监督项目进度和质量，及时解决项目执行过程中遇到的问题，确保项目按计划推进并达成预期目标</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 项目2内容 -->
+                    <div class="tab-content hidden" id="project-2">
+                        <div class="bg-white rounded-2xl shadow-md p-8 card-hover">
+                            <div class="flex flex-col md:flex-row justify-between items-start mb-6">
+                                <div>
+                                    <h3 class="text-2xl font-bold text-dark">企业模拟竞争大赛</h3>
+                                    <p class="text-primary text-lg">主要负责人</p>
+                                </div>
+                                <div class="mt-2 md:mt-0">
+                                    <span class="inline-block px-4 py-1 bg-accent/10 text-accent rounded-full font-medium">2025.10 - 2026.05</span>
+                                </div>
+                            </div>
+                            
+                            <div class="border-t border-gray-100 pt-6">
+                                <ul class="space-y-3">
+                                    <li class="flex items-start">
+                                        <i class="fa fa-angle-right text-primary mt-1 mr-3"></i>
+                                        <span>搭建多产品动态财务模型，拆分各产品生产成本、边际利润，为定价和生产计划提供数据支撑</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fa fa-angle-right text-primary mt-1 mr-3"></i>
+                                        <span>制定每期融资与分红策略，平衡现金流与股东收益，有效规避资金链断裂风险</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fa fa-angle-right text-primary mt-1 mr-3"></i>
+                                        <span>定期复盘每期财务数据，精准定位亏损产品问题，输出针对性优化方案</span>
+                                    </li>
+                                </ul>
+                                
+                                <div class="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
+                                    <p class="text-green-700 font-medium">
+                                        <i class="fa fa-trophy mr-2"></i>荣获全国企业模拟竞争大赛全国三等奖
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 项目3内容 -->
+                    <div class="tab-content hidden" id="project-3">
+                        <div class="bg-white rounded-2xl shadow-md p-8 card-hover">
+                            <div class="flex flex-col md:flex-row justify-between items-start mb-6">
+                                <div>
+                                    <h3 class="text-2xl font-bold text-dark">正大杯调研与分析大赛</h3>
+                                    <p class="text-primary text-lg">第二负责人</p>
+                                </div>
+                                <div class="mt-2 md:mt-0">
+                                    <span class="inline-block px-4 py-1 bg-accent/10 text-accent rounded-full font-medium">2025.10 - 2026.06</span>
+                                </div>
+                            </div>
+                            
+                            <div class="border-t border-gray-100 pt-6">
+                                <ul class="space-y-3">
+                                    <li class="flex items-start">
+                                        <i class="fa fa-angle-right text-primary mt-1 mr-3"></i>
+                                        <span>负责团队成员任务分配、进度跟踪及协调沟通，确保项目顺利进行</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fa fa-angle-right text-primary mt-1 mr-3"></i>
+                                        <span>带领小组深入研究市场趋势，收集并分析大量数据，形成详尽的研究报告</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fa fa-angle-right text-primary mt-1 mr-3"></i>
+                                        <span>定期组织培训会议，提升团队成员的数据处理能力和研究报告写作技巧</span>
+                                    </li>
+                                </ul>
+                                
+                                <div class="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
+                                    <p class="text-green-700 font-medium">
+                                        <i class="fa fa-trophy mr-2"></i>荣获正大杯调研与分析大赛全国三等奖
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 荣誉技能 -->
+                <section id="honors" class="mb-16 section">
+                    <h2 class="text-3xl font-bold mb-8 text-dark flex items-center">
+                        <i class="fa fa-trophy text-primary mr-3"></i>荣誉与技能
+                    </h2>
+                    
+                    <!-- 荣誉技能标签栏 -->
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <button class="tab tab-active px-4 py-2 rounded-full text-sm font-medium transition-colors" data-tab="honors-list">荣誉证书</button>
+                        <button class="tab px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors" data-tab="skills-list">专业技能</button>
+                    </div>
+
+                    <!-- 荣誉证书内容 -->
+                    <div class="tab-content" id="honors-list">
+                        <div class="bg-white rounded-2xl shadow-md p-8">
+                            <h3 class="text-xl font-bold mb-6 text-dark flex items-center">
+                                <i class="fa fa-award text-yellow-500 mr-2"></i>荣誉证书
+                            </h3>
+                            
+                            <ul class="space-y-4">
+                                <li class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                                    <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mr-4">
+                                        <i class="fa fa-trophy text-yellow-600 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-dark">全国企业模拟竞争大赛</h4>
+                                        <p class="text-gray-500 text-sm">全国三等奖</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                                    <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mr-4">
+                                        <i class="fa fa-trophy text-yellow-600 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-dark">正大杯调研与分析大赛</h4>
+                                        <p class="text-gray-500 text-sm">全国三等奖</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                                        <i class="fa fa-medal text-blue-600 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-dark">校二等奖学金</h4>
+                                        <p class="text-gray-500 text-sm">扬州大学</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                                    <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                                        <i class="fa fa-user text-blue-600 text-xl"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-dark">院三好学生</h4>
+                                        <p class="text-gray-500 text-sm">扬州大学</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- 专业技能内容 -->
+                    <div class="tab-content hidden" id="skills-list">
+                        <div class="bg-white rounded-2xl shadow-md p-8">
+                            <h3 class="text-xl font-bold mb-6 text-dark flex items-center">
+                                <i class="fa fa-cogs text-blue-500 mr-2"></i>专业技能
+                            </h3>
+                            
+                            <div class="space-y-8">
+                                <div>
+                                    <h4 class="text-lg font-semibold mb-4 text-gray-700 flex items-center">
+                                        <i class="fa fa-certificate text-primary mr-2"></i>专业证书
+                                    </h4>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div class="p-4 bg-gray-50 rounded-lg flex items-center">
+                                            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                                                <i class="fa fa-file-text-o text-primary"></i>
+                                            </div>
+                                            <span>初级审计师职称</span>
+                                        </div>
+                                        <div class="p-4 bg-gray-50 rounded-lg flex items-center">
+                                            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                                                <i class="fa fa-file-text-o text-primary"></i>
+                                            </div>
+                                            <span>初级会计证书</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="text-lg font-semibold mb-4 text-gray-700 flex items-center">
+                                        <i class="fa fa-laptop text-primary mr-2"></i>计算机技能
+                                    </h4>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div class="p-4 bg-gray-50 rounded-lg flex items-center">
+                                            <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                                                <i class="fa fa-windows text-gray-600"></i>
+                                            </div>
+                                            <span>计算机二级</span>
+                                        </div>
+                                        <div class="p-4 bg-gray-50 rounded-lg flex items-center">
+                                            <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                                                <i class="fa fa-file-excel-o text-green-600"></i>
+                                            </div>
+                                            <span>Microsoft Office</span>
+                                        </div>
+                                        <div class="p-4 bg-gray-50 rounded-lg flex items-center">
+                                            <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                                                <i class="fa fa-code text-gray-600"></i>
+                                            </div>
+                                            <span>Python</span>
+                                        </div>
+                                        <div class="p-4 bg-gray-50 rounded-lg flex items-center">
+                                            <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                                                <i class="fa fa-bar-chart text-blue-600"></i>
+                                            </div>
+                                            <span>数据分析</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="text-lg font-semibold mb-4 text-gray-700 flex items-center">
+                                        <i class="fa fa-language text-primary mr-2"></i>英语能力
+                                    </h4>
+                                    <div class="p-4 bg-gray-50 rounded-lg flex items-center">
+                                        <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                                            <i class="fa fa-globe text-gray-600"></i>
+                                        </div>
+                                        <span>CET-6 | 良好的听说读写能力</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 联系我 -->
+                <section id="contact" class="mb-16 section">
+                    <h2 class="text-3xl font-bold mb-8 text-dark flex items-center">
+                        <i class="fa fa-envelope text-primary mr-3"></i>联系我
+                    </h2>
+                    
+                    <div class="bg-white rounded-2xl shadow-md p-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <h3 class="text-xl font-bold mb-6 text-dark">联系方式</h3>
+                                <p class="text-gray-600 mb-8">
+                                    如果您对我的简历感兴趣，或者有任何合作机会，欢迎随时与我联系！
+                                </p>
+                                
+                                <ul class="space-y-6">
+                                    <li class="flex items-center">
+                                        <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mr-4">
+                                            <i class="fa fa-phone text-primary text-xl"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-gray-500 text-sm">电话</p>
+                                            <a href="tel:15952171952" class="text-dark font-medium hover:text-primary transition-colors">15952171952</a>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="flex items-center">
+                                        <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mr-4">
+                                            <i class="fa fa-envelope text-primary text-xl"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-gray-500 text-sm">邮箱</p>
+                                            <a href="mailto:213928349@qq.com" class="text-dark font-medium hover:text-primary transition-colors">213928349@qq.com</a>
+                                        </div>
+                                    </li>
+                                    
+                                    <li class="flex items-center">
+                                        <div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mr-4">
+                                            <i class="fa fa-map-marker text-primary text-xl"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-gray-500 text-sm">现居地</p>
+                                            <p class="text-dark font-medium">江苏省徐州市</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-xl font-bold mb-6 text-dark">发送消息</h3>
+                                <form class="space-y-4">
+                                    <div>
+                                        <label class="block text-gray-700 mb-2 text-sm" for="name">姓名</label>
+                                        <input type="text" id="name" class="w-full px-4 py-3 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent" placeholder="请输入您的姓名">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2 text-sm" for="email">邮箱</label>
+                                        <input type="email" id="email" class="w-full px-4 py-3 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent" placeholder="请输入您的邮箱">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2 text-sm" for="message">留言</label>
+                                        <textarea id="message" rows="4" class="w-full px-4 py-3 bg-gray-50 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-transparent" placeholder="请输入您的留言"></textarea>
+                                    </div>
+                                    <button type="button" class="w-full px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-medium">
+                                        发送消息
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 页脚 -->
+                <footer class="text-center py-8 text-gray-500 text-sm">
+                    <p>© 2026 卢心语 | 个人简历网站</p>
+                </footer>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 移动端侧边栏切换
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+            document.body.classList.toggle('overflow-hidden');
+        });
+
+        overlay.addEventListener('click', () => {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        });
+
+        // 全局标签切换功能
+        function initTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetTab = tab.dataset.tab;
+                    const tabContainer = tab.parentElement;
+                    const contentContainer = tabContainer.nextElementSibling.parentElement;
+                    
+                    // 获取当前标签组的所有标签和内容
+                    const groupTabs = tabContainer.querySelectorAll('.tab');
+                    const groupContents = contentContainer.querySelectorAll('.tab-content');
+                    
+                    // 移除当前组所有标签的激活状态
+                    groupTabs.forEach(t => {
+                        t.classList.remove('tab-active');
+                        t.classList.add('bg-gray-100', 'text-gray-700');
+                    });
+                    
+                    // 添加当前标签的激活状态
+                    tab.classList.add('tab-active');
+                    tab.classList.remove('bg-gray-100', 'text-gray-700');
+                    
+                    // 隐藏当前组所有内容
+                    groupContents.forEach(content => {
+                        content.classList.add('hidden');
+                    });
+                    
+                    // 显示当前标签对应的内容
+                    document.getElementById(targetTab).classList.remove('hidden');
+                });
+            });
+        }
+
+        // 滚动监听和点击定位
+        function initScrollSpy() {
+            const sections = document.querySelectorAll('.section');
+            const sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+            // 点击侧边栏链接平滑滚动到对应区域
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    
+                    if (targetSection) {
+                        // 移动端点击后关闭侧边栏
+                        if (window.innerWidth < 1024) {
+                            sidebar.classList.add('-translate-x-full');
+                            overlay.classList.add('hidden');
+                            document.body.classList.remove('overflow-hidden');
+                        }
+                        
+                        window.scrollTo({
+                            top: targetSection.offsetTop - 20,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // 滚动监听，高亮对应导航项
+            window.addEventListener('scroll', () => {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollY >= sectionTop - 200) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                sidebarLinks.forEach(link => {
+                    link.classList.remove('sidebar-link-active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('sidebar-link-active');
+                    }
+                });
+            });
+        }
+
+        // 表单提交提示
+        function initForm() {
+            const submitBtn = document.querySelector('button[type="button"]');
+            submitBtn.addEventListener('click', () => {
+                alert('感谢您的留言！我会尽快回复您。');
+            });
+        }
+
+        // 初始化所有功能
+        document.addEventListener('DOMContentLoaded', () => {
+            initTabs();
+            initScrollSpy();
+            initForm();
+        });
+    </script>
+</body>
+</html>
